@@ -43,6 +43,22 @@ class Sortie
     #[ORM\Column(length: 255)]
     private ?string $etat = null;
 
+    #[ORM\ManyToOne(inversedBy: 'sorties')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Campus $siteOrganisateur = null;
+
+    #[ORM\ManyToOne(inversedBy: 'organisateur')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Participant $organisateur = null;
+
+    #[ORM\ManyToOne(inversedBy: 'sorties')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Etat $etatSortie = null;
+
+    #[ORM\ManyToOne(inversedBy: 'sorties')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Lieu $lieuSortie = null;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();
@@ -160,6 +176,54 @@ class Sortie
     public function setEtat(string $etat): static
     {
         $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getSiteOrganisateur(): ?Campus
+    {
+        return $this->siteOrganisateur;
+    }
+
+    public function setSiteOrganisateur(?Campus $siteOrganisateur): static
+    {
+        $this->siteOrganisateur = $siteOrganisateur;
+
+        return $this;
+    }
+
+    public function getOrganisateur(): ?Participant
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?Participant $organisateur): static
+    {
+        $this->organisateur = $organisateur;
+
+        return $this;
+    }
+
+    public function getEtatSortie(): ?Etat
+    {
+        return $this->etatSortie;
+    }
+
+    public function setEtatSortie(?Etat $etatSortie): static
+    {
+        $this->etatSortie = $etatSortie;
+
+        return $this;
+    }
+
+    public function getLieuSortie(): ?Lieu
+    {
+        return $this->lieuSortie;
+    }
+
+    public function setLieuSortie(?Lieu $lieuSortie): static
+    {
+        $this->lieuSortie = $lieuSortie;
 
         return $this;
     }
