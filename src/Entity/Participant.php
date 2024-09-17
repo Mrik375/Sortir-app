@@ -6,9 +6,12 @@ use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
-class Participant
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['mail'])]
+class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,7 +25,7 @@ class Participant
     private ?string $prenom = null;
 
     #[ORM\Column]
-    private ?int $telephone = null;
+    private ?string $telephone = null;
 
     #[ORM\Column(length: 255)]
     private ?string $mail = null;
@@ -40,13 +43,13 @@ class Participant
      * @var Collection<int, Sortie>
      */
     #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'participants')]
-    private Collection $sortie;
+    private Collection $sorties;
 
     /**
      * @var Collection<int, Sortie>
      */
     #[ORM\OneToMany(targetEntity: Sortie::class, mappedBy: 'organisateur')]
-    private Collection $organisateur;
+    private Collection $sortieOrganisateurs;
 
     #[ORM\ManyToOne(inversedBy: 'participants')]
     #[ORM\JoinColumn(nullable: false)]
@@ -54,8 +57,8 @@ class Participant
 
     public function __construct()
     {
-        $this->sortie = new ArrayCollection();
-        $this->organisateur = new ArrayCollection();
+        $this->sorties = new ArrayCollection();
+        $this->sortieOrganisateurs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -87,12 +90,12 @@ class Participant
         return $this;
     }
 
-    public function getTelephone(): ?int
+    public function getTelephone(): ?string
     {
         return $this->telephone;
     }
 
-    public function setTelephone(int $telephone): static
+    public function setTelephone(string $telephone): static
     {
         $this->telephone = $telephone;
 
@@ -152,13 +155,13 @@ class Participant
      */
     public function getSortie(): Collection
     {
-        return $this->sortie;
+        return $this->sorties;
     }
 
     public function addSortie(Sortie $sortie): static
     {
-        if (!$this->sortie->contains($sortie)) {
-            $this->sortie->add($sortie);
+        if (!$this->sorties->contains($sortie)) {
+            $this->sorties->add($sortie);
         }
 
         return $this;
@@ -166,7 +169,7 @@ class Participant
 
     public function removeSortie(Sortie $sortie): static
     {
-        $this->sortie->removeElement($sortie);
+        $this->sorties->removeElement($sortie);
 
         return $this;
     }
@@ -174,24 +177,24 @@ class Participant
     /**
      * @return Collection<int, Sortie>
      */
-    public function getOrganisateur(): Collection
+    public function getSortieOrganisateurs(): Collection
     {
-        return $this->organisateur;
+        return $this->sortieOrganisateurs;
     }
 
-    public function addOrganisateur(Sortie $organisateur): static
+    public function addSortieOrganisateur(Sortie $organisateur): static
     {
-        if (!$this->organisateur->contains($organisateur)) {
-            $this->organisateur->add($organisateur);
+        if (!$this->sortieOrganisateurs->contains($organisateur)) {
+            $this->sortieOrganisateurs->add($organisateur);
             $organisateur->setOrganisateur($this);
         }
 
         return $this;
     }
 
-    public function removeOrganisateur(Sortie $organisateur): static
+    public function removeSortieOrganisateur(Sortie $organisateur): static
     {
-        if ($this->organisateur->removeElement($organisateur)) {
+        if ($this->sortieOrganisateurs->removeElement($organisateur)) {
             // set the owning side to null (unless already changed)
             if ($organisateur->getOrganisateur() === $this) {
                 $organisateur->setOrganisateur(null);
@@ -211,5 +214,25 @@ class Participant
         $this->estRattacheA = $estRattacheA;
 
         return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->motPasse;
+    }
+
+    public function getRoles(): array
+    {
+        return $this->administrateur ?['ROLE_ADMIN'] : ['ROLE_USER'];
+    }
+
+    public function eraseCredentials(): void
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->mail;
     }
 }

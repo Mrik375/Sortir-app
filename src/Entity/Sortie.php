@@ -25,7 +25,7 @@ class Sortie
     #[ORM\Column]
     private ?int $duree = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateLimiteInscription = null;
 
     #[ORM\Column]
@@ -37,17 +37,14 @@ class Sortie
     /**
      * @var Collection<int, Participant>
      */
-    #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'sortie')]
+    #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'sorties')]
     private Collection $participants;
-
-    #[ORM\Column(length: 255)]
-    private ?string $etat = null;
 
     #[ORM\ManyToOne(inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Campus $siteOrganisateur = null;
 
-    #[ORM\ManyToOne(inversedBy: 'organisateur')]
+    #[ORM\ManyToOne(inversedBy: 'sortieOrganisateurs')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Participant $organisateur = null;
 
@@ -164,18 +161,6 @@ class Sortie
         if ($this->participants->removeElement($participant)) {
             $participant->removeSortie($this);
         }
-
-        return $this;
-    }
-
-    public function getEtat(): ?string
-    {
-        return $this->etat;
-    }
-
-    public function setEtat(string $etat): static
-    {
-        $this->etat = $etat;
 
         return $this;
     }

@@ -19,7 +19,7 @@ class Ville
     private ?string $nom = null;
 
     #[ORM\Column]
-    private ?int $codePostal = null;
+    private ?string $codePostal = null;
 
     /**
      * @var Collection<int, Lieu>
@@ -49,12 +49,12 @@ class Ville
         return $this;
     }
 
-    public function getCodePostal(): ?int
+    public function getCodePostal(): ?string
     {
         return $this->codePostal;
     }
 
-    public function setCodePostal(int $codePostal): static
+    public function setCodePostal(string $codePostal): static
     {
         $this->codePostal = $codePostal;
 
