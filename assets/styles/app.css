@@ -1,4 +1,51 @@
-body {
+body{
     background-color: moccasin;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     font-family: "Montserrat", sans-serif;
+}
+
+main {
+    flex: 1;
+}
+
+main h1{
+    margin: 40px;
+}
+
+header{
+    background-color: olive;
+
+}
+header h1{
+    margin-left: 30%;
+}
+
+footer{
+    background-color: sandybrown;
+    text-align: center;
+    padding: 10px;
+    margin-top: auto;
+}
+
+ul{
+    list-style-type: none;
+}
+
+.nav-list {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin-left: 30%;
+}
+
+.nav-list li {
+    margin-right: 20px; /* Espace entre les liens */
+}
+
+.nav-list a {
+    text-decoration: none;
+    color: black; /* Couleur du texte des liens */
 }
