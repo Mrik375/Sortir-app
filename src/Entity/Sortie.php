@@ -29,7 +29,7 @@ class Sortie
     private ?\DateTimeInterface $dateLimiteInscription = null;
 
     #[ORM\Column]
-    private ?int $bnInscriptionMax = null;
+    private ?int $nbInscriptionMax = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $infosSortie = null;
@@ -114,14 +114,14 @@ class Sortie
         return $this;
     }
 
-    public function getBnInscriptionMax(): ?int
+    public function getnbInscriptionMax(): ?int
     {
-        return $this->bnInscriptionMax;
+        return $this->nbInscriptionMax;
     }
 
-    public function setBnInscriptionMax(int $bnInscriptionMax): static
+    public function setnbInscriptionMax(int $nbInscriptionMax): static
     {
-        $this->bnInscriptionMax = $bnInscriptionMax;
+        $this->nbInscriptionMax = $nbInscriptionMax;
 
         return $this;
     }

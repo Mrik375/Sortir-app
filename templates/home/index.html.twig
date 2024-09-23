@@ -1,20 +1,64 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}
+    {{ parent() }} | Accueil
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp64/www/workspace/Sortir-app/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>C:/wamp64/www/workspace/Sortir-app/templates/home/index.html.twig</code></li>
-    </ul>
+<div>
+    <p>Date du jour : {{ "now"|date("d/m/Y") }}</p>
+    <p>Participant : {{ app.user.prenom }} {{ app.user.nom }}</p>
 </div>
+<div>
+    <h3>Les sorties</h3>
+    <div>
+        {{ form_start(checkSortiesForm, {'attr': {'data-turbo': 'false'}}) }}
+            {{ form_widget(checkSortiesForm) }}
+            <button type="submit">Rechercher</button>
+        {{ form_end(checkSortiesForm) }}
+    </div>
+    <!-- Affichage des sorties filtrées -->
+    <div id="sorties-container" class="tab-sorties">
+        {% if sorties is not empty %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom de la sortie</th>
+                        <th>Date de la sortie</th>
+                        <th>Clôture</th>
+                        <th>Inscrits/places</th>
+                        <th>État</th>
+                        <th>Inscrit</th>
+                        <th>Organisateur</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sortie in sorties %}
+                        <tr>
+                            <td>{{ sortie.nom }}</td>
+                            <td>{{ sortie.dateHeureDebut|date('d/m/Y - H:i') }}</td>
+                            <td>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
+                            <td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionMax }}</td>
+                            <td>{{ sortie.etatSortie.libelle }}</td>
+                            <td>
+                                {% if sortie.participants.contains(app.user) %}
+                                    <span>&#10060;</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ sortie.organisateur.nom }} {{ sortie.organisateur.prenom|first }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Aucune sortie disponible pour ce campus.</p>
+        {% endif %}
+    </div>
+</div>
+    <div>
+        <a href="">
+            <button type="submit">Créer une sortie</button>
+        </a>
+    </div>
 {% endblock %}
