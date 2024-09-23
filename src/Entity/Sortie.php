@@ -29,10 +29,14 @@ class Sortie
     private ?\DateTimeInterface $dateLimiteInscription = null;
 
     #[ORM\Column]
-    private ?int $bnInscriptionMax = null;
+    private ?int $nbInscriptionMax = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $infosSortie = null;
+
+    #[ORM\ManyToOne(targetEntity: Ville::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Ville $ville = null;
 
     /**
      * @var Collection<int, Participant>
@@ -42,7 +46,7 @@ class Sortie
 
     #[ORM\ManyToOne(inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Campus $siteOrganisateur = null;
+    private ?Campus $campus = null;
 
     #[ORM\ManyToOne(inversedBy: 'sortieOrganisateurs')]
     #[ORM\JoinColumn(nullable: false)]
@@ -114,14 +118,14 @@ class Sortie
         return $this;
     }
 
-    public function getBnInscriptionMax(): ?int
+    public function getnbInscriptionMax(): ?int
     {
-        return $this->bnInscriptionMax;
+        return $this->nbInscriptionMax;
     }
 
-    public function setBnInscriptionMax(int $bnInscriptionMax): static
+    public function setnbInscriptionMax(int $nbInscriptionMax): static
     {
-        $this->bnInscriptionMax = $bnInscriptionMax;
+        $this->nbInscriptionMax = $nbInscriptionMax;
 
         return $this;
     }
@@ -165,14 +169,14 @@ class Sortie
         return $this;
     }
 
-    public function getSiteOrganisateur(): ?Campus
+    public function getCampus(): ?Campus
     {
-        return $this->siteOrganisateur;
+        return $this->campus;
     }
 
-    public function setSiteOrganisateur(?Campus $siteOrganisateur): static
+    public function setCampus(?Campus $campus): static
     {
-        $this->siteOrganisateur = $siteOrganisateur;
+        $this->campus = $campus;
 
         return $this;
     }
@@ -210,6 +214,17 @@ class Sortie
     {
         $this->lieuSortie = $lieuSortie;
 
+        return $this;
+    }
+
+    public function getVille(): ?Ville
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?Ville $ville): self
+    {
+        $this->ville = $ville;
         return $this;
     }
 }

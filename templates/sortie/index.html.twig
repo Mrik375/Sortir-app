@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sortie index{% endblock %}
+
+{% block body %}
+    <h1>Sortie index</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Date et heure de la sortie</th>
+            <th>Date limite d'inscription</th>
+            <th>Nombre de place</th>
+            <th>Durée</th>
+            <th>Description et infos</th>
+            <th>Campus</th>
+            <th>Ville</th>
+            <th>Lieu</th>
+            <th>Rue</th>
+            <th>Code postal</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sortie in sorties %}
+            <tr>
+                <td>{{ sortie.id }}</td>
+                <td>{{ sortie.nom }}</td>
+                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d') : '' }}</td>
+                <td>{{ sortie.nbInscriptionMax }}</td>
+                <td>{{ sortie.duree }}</td>
+                <td>{{ sortie.infosSortie }}</td>
+                <td>{{ sortie.campus.nom }}</td>
+                <td>{{ sortie.lieuSortie.lieuVille.nom }}</td> <!-- Accès à la ville via lieu -->
+                <td>{{ sortie.lieuSortie.nom }}</td> <!-- Nom du lieu -->
+                <td>{{ sortie.lieuSortie.rue }}</td> <!-- Rue du lieu -->
+                <td>{{ sortie.lieuSortie.lieuVille.codePostal }}</td> <!-- Code postal de la ville -->
+                <td>{{ sortie.lieuSortie.latitude }}</td> <!-- Latitude du lieu -->
+                <td>{{ sortie.lieuSortie.longitude }}</td> <!-- Longitude du lieu -->
+                <td>
+                    <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">show</a>
+                    <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="15">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('sortie_new') }}">Create new</a>
+{% endblock %}

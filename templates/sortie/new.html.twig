@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une sortie{% endblock %}
+
+{% block body %}
+    <main>
+        <section class="form-container">
+            <h1>Créer une sortie</h1>
+
+            {{ form_start(form, {'method': 'POST'}) }}
+
+
+            <div class="form-group">
+                {{ form_label(form.nom, 'Nom de la sortie :') }}
+                {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.dateHeureDebut, 'Date et heure de la sortie :') }}
+                {{ form_widget(form.dateHeureDebut, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.dateLimiteInscription, 'Date limite d\'inscription :') }}
+                {{ form_widget(form.dateLimiteInscription, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.nbInscriptionMax, 'Nombre de places :') }}
+                {{ form_widget(form.nbInscriptionMax, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.duree, 'Durée :') }}
+                {{ form_widget(form.duree, {'attr': {'class': 'form-control'}}) }}
+                <span>minutes</span>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.infosSortie, 'Description et infos :') }}
+                {{ form_widget(form.infosSortie, {'attr': {'rows': '4', 'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.campus, 'Campus :') }}
+                {{ form_widget(form.campus, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.ville, 'Ville :') }}
+                {{ form_widget(form.ville, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.lieuSortie, 'Lieu :') }}
+                {{ form_widget(form.lieuSortie, {'attr': {'class': 'form-control'}}) }}
+                <button type="button" class="add-lieu">+</button>
+            </div>
+
+            <!-- Ajoute des ID pour cibler facilement ces éléments dans le JS -->
+            <div class="form-group">
+                <label for="rue">Rue :</label>
+                <input type="text" id="rue" class="form-control" disabled>
+            </div>
+
+            <div class="form-group">
+                <label for="codePostal">Code Postal :</label>
+                <input type="text" id="codePostal" class="form-control" disabled>
+            </div>
+
+            {{ form_end(form) }}
+        </section>
+    </main>
+
+    <script defer>
+        document.addEventListener('DOMContentLoaded', function () {
+            const lieuSelect = document.querySelector('#{{ form.lieuSortie.vars.id }}');
+            const rueInput = document.querySelector('#rue');
+            const codePostalInput = document.querySelector('#codePostal');
+
+            // Fonction pour charger les détails du lieu
+            function loadLieuDetails(lieuId) {
+                if (lieuId) {
+                    fetch(`/workspace/sortir-app/public/sortie/lieu-details/${lieuId}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            rueInput.value = data.rue || '';
+                            codePostalInput.value = data.codePostal || '';
+                        })
+                        .catch(error => console.error('Erreur lors de la récupération des détails du lieu:', error));
+                } else {
+                    rueInput.value = '';
+                    codePostalInput.value = '';
+                }
+            }
+
+            // Événement lors du changement de la sélection du lieu
+            lieuSelect.addEventListener('change', function () {
+                const lieuId = this.value;
+                loadLieuDetails(lieuId);
+            });
+
+            // Charger les détails du lieu initial s'il y en a un sélectionné
+            const initialLieuId = lieuSelect.value;
+            loadLieuDetails(initialLieuId);
+        });
+    </script>
+{% endblock %}

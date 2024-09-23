@@ -30,6 +30,15 @@ class SortieRepository extends ServiceEntityRepository
     //            ->getResult()
     //        ;
     //    }
+    public function findByEtat($etat): array
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.etatSortie = :etat')
+            ->setParameter('etat', $etat)
+            ->orderBy('s.dateHeureDebut', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 
     //    public function findOneBySomeField($value): ?Sortie
     //    {
