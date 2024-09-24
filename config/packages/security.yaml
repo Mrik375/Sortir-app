@@ -42,7 +42,7 @@ security:
         # - { path: ^/, roles: IS_AUTHENTICATED_FULLY}
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/login$, roles: PUBLIC_ACCESS }
-        - { path: ^/, roles: ROLE_USER }
+        - { path: ^/, roles: [ROLE_USER, ROLE_ADMIN] }
 
 
 when@test:
