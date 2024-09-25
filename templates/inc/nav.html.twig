@@ -1,7 +1,9 @@
 <nav>
     <ul class="nav-list">
-        <li><a href="#" title="Villes">Villes</a></li>
-        <li><a href="#" title="Campus">Campus</a></li>
+        {% if is_granted('ROLE_ADMIN') %}
+            <li><a href="#" title="Villes">Villes</a></li>
+            <li><a href="#" title="Campus">Campus</a></li>
+        {% endif %}
         <li><a href="{{ path('home_') }}" title="Accueil">Accueil</a></li>
         <li><a href="#" title="Mon Profil">Mon Profil</a></li>
         <li><a href="#" title="Se Déconnecter">Se Déconnecter</a></li>
