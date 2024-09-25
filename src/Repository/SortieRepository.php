@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Class\Accueil;
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -32,8 +34,7 @@ class SortieRepository extends ServiceEntityRepository
             ->join('s.etatSortie', 'e')
             ->join('s.organisateur', 'o')
             ->leftJoin('s.participants', 'p')
-            ->select('s, e, o, p')
-        ;
+            ->select('s, e, o, p');
 
         if ($accueil->getCampus()) {
             $qb->andWhere('s.siteOrganisateur = :campus')
@@ -42,7 +43,7 @@ class SortieRepository extends ServiceEntityRepository
 
         if ($accueil->getNom()) {
             $qb->andWhere('s.nom LIKE :nom')
-                ->setParameter('nom', '%'.$accueil->getNom().'%');
+                ->setParameter('nom', '%' . $accueil->getNom() . '%');
         }
 
         if ($accueil->getDateDebut()) {
