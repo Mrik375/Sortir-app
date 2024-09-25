@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil de {{ participant.nom }}{% endblock %}
+
+{% block body %}
+    <style>
+        .imgProfile {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+    </style>
+    {% if participant.imageProfile is not null %}
+        <img class="imgProfile" src="{{ asset('uploads/images/' ~ participant.imageProfile) }}" alt="user photo">
+
+    {% else %}
+        <p>Pas d'image de profil</p>
+    {% endif %}
+
+    <h1>{{ participant.pseudo }}</h1>
+    <p>Nom : {{ participant.nom }}</p>
+    <p>Prénom : {{ participant.prenom }}</p>
+    <p>Email: {{ participant.mail }}</p>
+    <p>Téléphone: {{ participant.telephone }}</p>
+    <p>Campus: {{ participant.estRattacheA.nom }}</p>
+{% endblock %}

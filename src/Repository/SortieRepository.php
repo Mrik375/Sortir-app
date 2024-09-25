@@ -18,14 +18,23 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
+    public function findByEtat($etat): array
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.etatSortie = :etat')
+            ->setParameter('etat', $etat)
+            ->orderBy('s.dateHeureDebut', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findByFilters(Accueil $accueil, ?Participant $participant): array
     {
         $qb = $this->createQueryBuilder('s')
             ->join('s.etatSortie', 'e')
             ->join('s.organisateur', 'o')
             ->leftJoin('s.participants', 'p')
-            ->select('s, e, o, p')
-        ;
+            ->select('s, e, o, p');
 
         if ($accueil->getCampus()) {
             $qb->andWhere('s.siteOrganisateur = :campus')
@@ -34,7 +43,7 @@ class SortieRepository extends ServiceEntityRepository
 
         if ($accueil->getNom()) {
             $qb->andWhere('s.nom LIKE :nom')
-                ->setParameter('nom', '%'.$accueil->getNom().'%');
+                ->setParameter('nom', '%' . $accueil->getNom() . '%');
         }
 
         if ($accueil->getDateDebut()) {
@@ -77,4 +86,5 @@ class SortieRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
 }

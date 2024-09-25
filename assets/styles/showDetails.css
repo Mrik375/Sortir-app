@@ -1,0 +1,42 @@
+.sortie-details-container {
+    width: 80%;
+    margin: auto;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.detail-left, .detail-right {
+    width: 48%;
+}
+
+.participants-list {
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+.btn {
+    margin-top: 20px;
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #ccc;
+    text-decoration: none;
+    color: black;
+    border-radius: 5px;
+}
