@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Mon profil
+{% endblock %}
+
+{% block body %}
+    <h1>Mon profil</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit">Mettre à jour</button>
+    {{ form_end(form) }}
+{% endblock %}

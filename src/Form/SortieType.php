@@ -25,7 +25,7 @@ class SortieType extends AbstractType
             ->add('dateLimiteInscription')
             ->add('nbInscriptionMax')
             ->add('infosSortie')
-            ->add('campus', EntityType::class, [
+            ->add('siteOrganisateur', EntityType::class, [
                 'class' => Campus::class,
                 'choice_label' => 'nom',
             ])
@@ -38,11 +38,15 @@ class SortieType extends AbstractType
                 'choice_label' => 'nom',
                 'mapped' => true,  // Liez ce champ à l'entité Sortie
             ])
-            ->add('submit', SubmitType::class, [
+            ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer',
+                'attr' => ['class' => 'btn btn-primary'],
+            ])
+            ->add('publish', SubmitType::class, [
+                'label' => 'Publier la sortie',
+                'attr' => ['class' => 'btn btn-success'],
             ]);
 
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

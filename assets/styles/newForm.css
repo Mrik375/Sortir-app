@@ -1,1 +1,68 @@
-/*Vide*/
+.parent {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Deux colonnes égales */
+    grid-template-rows: auto;
+    gap: 30px; /* Espacement entre les colonnes */
+    padding: 20px; /* Padding autour du formulaire */
+    justify-content: center; /* Centre horizontalement le contenu de la grille */
+    width: 80%; /* Ajuste la largeur du conteneur pour éviter qu'il soit trop large */
+    margin: 0 auto; /* Centre le conteneur sur la page */
+}
+
+.div1, .div2 {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espacement vertical entre les éléments dans chaque colonne */
+}
+
+.div3 {
+    grid-column: span 2; /* Les boutons s'étendent sur les deux colonnes */
+    display: flex;
+    justify-content: center; /* Centre les boutons horizontalement */
+    gap: 15px; /* Espacement entre les boutons */
+    margin-top: 30px; /* Ajoute un espacement au-dessus des boutons */
+}
+
+/* Styles pour les boutons */
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff; /* Texte blanc */
+    background-color: #007BFF; /* Bleu sobre */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3; /* Couleur légèrement plus foncée au survol */
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Rouge sobre pour les actions dangereuses */
+}
+
+.btn-danger:hover {
+    background-color: #c82333; /* Rouge plus foncé au survol */
+}
+
+/* Style pour les champs de formulaire */
+.form-control {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 80%; /* Réduire la largeur à 80% */
+    max-width: 500px; /* Limite la largeur maximale à 500px */
+}
+
+/* Classes pour les éléments spécifiques à pleine ou moitié de largeur */
+.half-width {
+    width: 50%; /* Réduire à 50% pour les champs plus petits */
+}
+
+.full-width {
+    grid-column: span 2;
+    width: 100%; /* Utilisé pour les éléments en pleine largeur */
+}

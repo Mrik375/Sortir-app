@@ -46,7 +46,7 @@ class Sortie
 
     #[ORM\ManyToOne(inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Campus $campus = null;
+    private ?Campus $siteOrganisateur = null;
 
     #[ORM\ManyToOne(inversedBy: 'sortieOrganisateurs')]
     #[ORM\JoinColumn(nullable: false)]
@@ -118,12 +118,12 @@ class Sortie
         return $this;
     }
 
-    public function getnbInscriptionMax(): ?int
+    public function getNbInscriptionMax(): ?int
     {
         return $this->nbInscriptionMax;
     }
 
-    public function setnbInscriptionMax(int $nbInscriptionMax): static
+    public function setNbInscriptionMax(int $nbInscriptionMax): static
     {
         $this->nbInscriptionMax = $nbInscriptionMax;
 
@@ -169,14 +169,14 @@ class Sortie
         return $this;
     }
 
-    public function getCampus(): ?Campus
+    public function getSiteOrganisateur(): ?Campus
     {
-        return $this->campus;
+        return $this->siteOrganisateur;
     }
 
-    public function setCampus(?Campus $campus): static
+    public function setSiteOrganisateur(?Campus $siteOrganisateur): static
     {
-        $this->campus = $campus;
+        $this->siteOrganisateur = $siteOrganisateur;
 
         return $this;
     }
