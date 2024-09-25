@@ -23,6 +23,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $pseudo = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageProfile = null;
+
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
@@ -59,9 +62,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'participants')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Campus $estRattacheA = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $imageProfile = null;
 
     public function __construct()
     {
@@ -243,7 +243,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->mail;
     }
-
     public function getPseudo(): ?string
     {
         return $this->pseudo;

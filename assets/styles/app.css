@@ -49,3 +49,23 @@ ul{
     text-decoration: none;
     color: black; /* Couleur du texte des liens */
 }
+.tab-sorties {
+    margin: 80px;
+    background-color: #f2f2f2;
+}
+.tab-sorties a {
+    text-decoration: none;
+}
+.tab-sorties table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #bdbcbc;
+}
