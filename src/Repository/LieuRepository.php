@@ -30,6 +30,15 @@ class LieuRepository extends ServiceEntityRepository
     //            ->getResult()
     //        ;
     //    }
+    public function findByVille($ville): array
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.ville = :ville')
+            ->setParameter('ville', $ville)
+            ->orderBy('l.nom', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 
     //    public function findOneBySomeField($value): ?Lieu
     //    {
