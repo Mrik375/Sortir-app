@@ -7,26 +7,14 @@ use App\Entity\Sortie;
 
 class Accueil
 {
-    private ?Campus $campus;
-    private ?string $nom;
-    private ?\DateTimeInterface $dateDebut;
-    private ?\DateTimeInterface $dateFin;
-    private bool $organisateur;
-    private bool $inscrit;
-    private bool $nonInscrit;
-    private bool $sortiesPassees;
-
-    public function __construct(?Campus $campus, ?string $nom, ?\DateTimeInterface $dateDebut, ?\DateTimeInterface $dateFin, bool $organisateur, bool $inscrit, bool $nonInscrit, bool $sortiesPassees)
-    {
-        $this->campus = $campus;
-        $this->nom = $nom;
-        $this->dateDebut = $dateDebut;
-        $this->dateFin = $dateFin;
-        $this->organisateur = $organisateur;
-        $this->inscrit = $inscrit;
-        $this->nonInscrit = $nonInscrit;
-        $this->sortiesPassees = $sortiesPassees;
-    }
+    private ?Campus $campus = null;
+    private ?string $nom = null;
+    private ?\DateTimeInterface $dateDebut = null;
+    private ?\DateTimeInterface $dateFin = null;
+    private bool $organisateur = false;
+    private bool $inscrit = false;
+    private bool $nonInscrit = false;
+    private bool $sortiesPassees = false;
 
     public function getCampus(): ?Campus
     {
