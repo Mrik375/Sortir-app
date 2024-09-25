@@ -1,13 +1,151 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Sortie{% endblock %}
+{% block title %}Modifier une sortie{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/newForm.css') }}">
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Sortie</h1>
+    <main>
 
-    {{ include('sortie/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_sortie_index') }}">back to list</a>
+            <h1>Modifier la sortie "{{ sortie.nom }}"</h1>
+            {{ form_start(form, {'method': 'POST'}) }}
 
-    {{ include('sortie/_delete_form.html.twig') }}
+            <div class="parent">
+                <div class="div1">
+                    <div class="form-group half-width">
+                        {{ form_label(form.nom, 'Nom de la sortie :') }}
+                        {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+
+                    <div class="form-group half-width">
+                        {{ form_label(form.dateHeureDebut, 'Date et heure de la sortie :') }}
+                        {{ form_widget(form.dateHeureDebut, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+
+                    <div class="form-group half-width">
+                        {{ form_label(form.dateLimiteInscription, 'Date limite d\'inscription :') }}
+                        {{ form_widget(form.dateLimiteInscription, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+
+                    <div class="form-group half-width">
+                        {{ form_label(form.nbInscriptionMax, 'Nombre de places :') }}
+                        {{ form_widget(form.nbInscriptionMax, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+
+                    <div class="form-group half-width">
+                        {{ form_label(form.duree, 'Durée :') }}
+                        {{ form_widget(form.duree, {'attr': {'class': 'form-control'}}) }}
+                        <span>minutes</span>
+                    </div>
+
+                    <div class="form-group full-width">
+                        {{ form_label(form.infosSortie, 'Description et infos :') }}
+                        {{ form_widget(form.infosSortie, {'attr': {'rows': '4', 'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="div2">
+                    <div class="form-group half-width">
+                        {{ form_label(form.siteOrganisateur, 'Campus :') }}
+                        {{ form_widget(form.siteOrganisateur, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+
+                    <div class="form-group half-width">
+                        {{ form_label(form.ville, 'Ville :') }}
+                        {{ form_widget(form.ville, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+
+                    <div class="form-group half-width">
+                        {{ form_label(form.lieuSortie, 'Lieu :') }}
+                        {{ form_widget(form.lieuSortie, {'attr': {'class': 'form-control'}}) }}
+                        <button type="button" class="add-lieu">+</button>
+                    </div>
+
+                    <div class="form-group half-width">
+                        <label for="rue">Rue :</label>
+                        <input type="text" id="rue" class="form-control" disabled>
+                    </div>
+
+                    <div class="form-group half-width">
+                        <label for="codePostal">Code Postal :</label>
+                        <input type="text" id="codePostal" class="form-control" disabled>
+                    </div>
+
+                    <div class="form-group half-width">
+                        <label for="latitude">Latitude :</label>
+                        <input type="text" id="latitude" class="form-control" disabled>
+                    </div>
+
+                    <div class="form-group half-width">
+                        <label for="longitude">Longitude :</label>
+                        <input type="text" id="longitude" class="form-control" disabled>
+                    </div>
+                </div>
+
+
+            <div class="div3">
+                {{ form_widget(form.save, {'attr': {'class': 'btn'}}) }}
+                {{ form_widget(form.publish, {'attr': {'class': 'btn'}}) }}
+
+                {# Formulaire pour le bouton de suppression #}
+                <form method="post" action="{{ path('app_sortie_delete', { 'id': sortie.id }) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette sortie ?');" style="display:inline;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ sortie.id) }}">
+                    <button type="submit" class="btn btn-danger">Supprimer la sortie</button>
+                </form>
+
+                <a href="{{ path('home_') }}" class="btn">Annuler</a>
+            </div>
+
+            {{ form_end(form) }}
+            </div>
+    </main>
+
+
+    <script defer>
+        document.addEventListener('DOMContentLoaded', function () {
+            const lieuSelect = document.querySelector('#{{ form.lieuSortie.vars.id }}');
+            const rueInput = document.querySelector('#rue');
+            const codePostalInput = document.querySelector('#codePostal');
+            const latitudeInput = document.querySelector('#latitude'); // Champ pour la latitude
+            const longitudeInput = document.querySelector('#longitude'); // Champ pour la longitude
+
+            // Fonction pour charger les détails du lieu
+            function loadLieuDetails(lieuId) {
+                if (lieuId) {
+                    fetch(`/workspace/sortir-app/public/sortie/lieu-details/${lieuId}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            rueInput.value = data.rue || '';
+                            codePostalInput.value = data.codePostal || '';
+                            latitudeInput.value = data.latitude || '';  // Remplir la latitude
+                            longitudeInput.value = data.longitude || ''; // Remplir la longitude
+                        })
+                        .catch(error => console.error('Erreur lors de la récupération des détails du lieu:', error));
+                } else {
+                    rueInput.value = '';
+                    codePostalInput.value = '';
+                    latitudeInput.value = ''; // Vider le champ latitude
+                    longitudeInput.value = ''; // Vider le champ longitude
+                }
+            }
+
+            // Événement lors du changement de la sélection du lieu
+            lieuSelect.addEventListener('change', function () {
+                const lieuId = this.value;
+                loadLieuDetails(lieuId);
+            });
+
+            // Charger les détails du lieu initial s'il y en a un sélectionné
+            const initialLieuId = lieuSelect.value;
+            loadLieuDetails(initialLieuId);
+        });
+    </script>
+
 {% endblock %}

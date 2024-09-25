@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Créer une sortie{% endblock %}
-
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset('styles/newForm.css') }}">{% endblock %}
 {% block body %}
     <main>
         <section class="form-container">
@@ -42,8 +42,8 @@
             </div>
 
             <div class="form-group">
-                {{ form_label(form.campus, 'Campus :') }}
-                {{ form_widget(form.campus, {'attr': {'class': 'form-control'}}) }}
+                {{ form_label(form.siteOrganisateur, 'Campus :') }}
+                {{ form_widget(form.siteOrganisateur, {'attr': {'class': 'form-control'}}) }}
             </div>
 
             <div class="form-group">
@@ -68,6 +68,23 @@
                 <input type="text" id="codePostal" class="form-control" disabled>
             </div>
 
+            <div class="form-group">
+                <label for="latitude">Latitude  :</label>
+                <input type="text" id="latitude" class="form-control" disabled>
+            </div>
+
+            <div class="form-group">
+                <label for="longitude">Longitude :</label>
+                <input type="text" id="longitude" class="form-control" disabled>
+            </div>
+
+            <div class="btn-form">
+                {{ form_widget(form.save, {'attr': {'class': 'btn'}}) }}
+                {{ form_widget(form.publish, {'attr': {'class': 'btn'}}) }}
+                <a href="{{ path('home_') }}" class="btn">Annuler</a>
+            </div>
+
+
             {{ form_end(form) }}
         </section>
     </main>
@@ -77,6 +94,8 @@
             const lieuSelect = document.querySelector('#{{ form.lieuSortie.vars.id }}');
             const rueInput = document.querySelector('#rue');
             const codePostalInput = document.querySelector('#codePostal');
+            const latitudeInput = document.querySelector('#latitude'); // Champ pour la latitude
+            const longitudeInput = document.querySelector('#longitude'); // Champ pour la longitude
 
             // Fonction pour charger les détails du lieu
             function loadLieuDetails(lieuId) {
@@ -91,11 +110,15 @@
                         .then(data => {
                             rueInput.value = data.rue || '';
                             codePostalInput.value = data.codePostal || '';
+                            latitudeInput.value = data.latitude || '';  // Remplir la latitude
+                            longitudeInput.value = data.longitude || ''; // Remplir la longitude
                         })
                         .catch(error => console.error('Erreur lors de la récupération des détails du lieu:', error));
                 } else {
                     rueInput.value = '';
                     codePostalInput.value = '';
+                    latitudeInput.value = ''; // Vider le champ latitude
+                    longitudeInput.value = ''; // Vider le champ longitude
                 }
             }
 
@@ -110,4 +133,5 @@
             loadLieuDetails(initialLieuId);
         });
     </script>
+
 {% endblock %}
