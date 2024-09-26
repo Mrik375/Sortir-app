@@ -178,6 +178,7 @@ input[type="checkbox"] {
     cursor: pointer;
 }
 .btn, .annuler {
+    font-family: "Montserrat", sans-serif;
     margin-top: 15px;
     height: 35px; /* Hauteur du bouton */
     padding-right: 20px;
