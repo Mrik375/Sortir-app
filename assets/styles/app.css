@@ -1,4 +1,4 @@
-body{
+body {
     background-color: rgba(204, 202, 202, 0.62);
     margin: 0;
     min-height: 100vh;
@@ -14,11 +14,11 @@ main {
     font-size: 1.2rem;
 }
 
-main h1{
+main h1 {
     margin-top: 40px;
 }
 
-header{
+header {
     background-color: rgba(78, 122, 34, 0.94);
     display: flex;
     justify-content: space-between;
@@ -27,20 +27,24 @@ header{
     padding-left: 4vw;
     padding-right: 4vw;
 }
+
 header img {
     margin-top: 15px;
     margin-right: 10px;
 }
+
 header a {
     text-decoration: none;
     color: white;
     font-size: 1.3rem;
     display: flex;
 }
+
 header a:hover {
     color: rgba(221, 221, 221, 0.78);
 }
-footer{
+
+footer {
     margin-top: 40px;
     background-color: rgba(78, 122, 34, 0.94);
     text-align: center;
@@ -48,7 +52,7 @@ footer{
     color: white;
 }
 
-ul{
+ul {
     list-style-type: none;
 }
 
@@ -67,6 +71,7 @@ ul{
     color: white;
     font-size: 1.1rem;
 }
+
 .tab-sorties {
     margin-top: 50px;
     margin-bottom: 40px;
@@ -75,26 +80,32 @@ ul{
     overflow-y: auto;
     border: 1px solid rgba(78, 122, 34, 0.83);
 }
+
 .tab-sorties a {
     text-decoration: none;
 }
+
 .tab-sorties table {
     width: 100%;
     border-collapse: collapse;
 }
+
 th, td {
     border: 1px solid rgba(78, 122, 34, 0.85);
     padding: 10px;
     text-align: center;
 }
+
 th {
     background-color: #bdbcbc;
 }
+
 .login-1 input {
     height: 25px;
     width: 200px;
     margin-bottom: 15px;
 }
+
 button {
     margin-top: 15px;
     height: 35px;
@@ -106,16 +117,19 @@ button {
     color: white;
     border-radius: 5px;
 }
+
 button:hover {
     cursor: pointer;
     background-color: rgba(88, 142, 36, 0.85);
 }
+
 .card-user {
     display: flex;
     justify-content: flex-end;
     font-size: 1.3rem;
     color: rgba(20, 20, 197, 0.66);
 }
+
 form[name="check_sorties_form"] {
     display: flex;
     justify-content: space-between;
@@ -125,33 +139,61 @@ form[name="check_sorties_form"] {
     box-shadow: 12px 12px 15px 1px rgba(128, 128, 128, 0.63);
     padding: 10px 50px 30px 10px;
 }
+
 form[name="check_sorties_form"] button {
     height: 70px;
     font-size: 1.4rem;
 }
+
 .form-filters input, select {
     height: 25px;
     border-radius: 5px;
     border: none;
 }
-.form-left input, select{
+
+.form-left input, select {
     margin-bottom: 20px;
 }
+
 .form-filters select:hover {
     cursor: pointer;
 }
+
 .form-filters label {
     margin-right: 10px;
 }
+
 .calender {
     display: flex;
     justify-content: space-around;
 }
+
 .calender input {
     height: 25px;
     margin-right: 20px;
 }
+
 input[type="checkbox"] {
     width: 20px;
     cursor: pointer;
+}
+.btn, .annuler {
+    margin-top: 15px;
+    height: 35px; /* Hauteur du bouton */
+    padding-right: 20px;
+    padding-left: 20px;
+    font-size: 1.1rem;
+    background-color: rgba(78, 122, 34, 0.85);
+    border: none;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none; /* Pour enlever le soulignement du lien */
+    display: inline-flex; /* Changement de display pour aligner verticalement */
+    align-items: center; /* Centre verticalement le contenu */
+    justify-content: center; /* Centre horizontalement le contenu */
+}
+
+.btn:hover, .annuler:hover {
+    cursor: pointer;
+    background-color: rgba(88, 142, 36, 0.85);
 }

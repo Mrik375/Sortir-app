@@ -83,7 +83,7 @@
                             <td>
                                 {% if sortie.etatSortie.id == 1 %}
                                     {% if sortie.organisateur == app.user %}
-                                        <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">Modifier - </a>
+                                        <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}" data-turbo="false">Modifier - </a>
                                         <form action="{{ path('sortie_publish', {'id': sortie.id}) }}" method="POST" style="display:inline;">
                                             <a href="#" onclick="event.preventDefault(); this.closest('form').submit();">Publier</a>
                                         </form>
@@ -91,8 +91,8 @@
                                         <span>Bientôt disponible...</span>
                                     {% endif %}
                                     {% elseif sortie.organisateur == app.user %}
-                                        <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">Afficher - </a>
-                                        <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">Modifier</a>
+                                        <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}" >Afficher - </a>
+                                        <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}" data-turbo="false">Modifier</a>
                                     {% elseif sortie.etatSortie.id == 5 %}
                                         <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">Afficher</a>
                                     {% else %}
@@ -124,8 +124,8 @@
     </div>
 </div>
     <div>
-        <a href="{{ path('sortie_new') }}">
-            <button type="submit">Créer une sortie</button>
+        <a href="{{ path('sortie_new') }}" data-turbo="false">
+            <button type="submit" >Créer une sortie</button>
         </a>
     </div>
 {% endblock %}

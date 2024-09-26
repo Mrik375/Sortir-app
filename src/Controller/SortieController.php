@@ -32,12 +32,12 @@ final class SortieController extends AbstractController
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $sortie = new Sortie();
-        $etatCreer = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Créée']);
+        $etatCreer = $em->getRepository(Etat::class)->findOneBy(['id' => '1']);
 
         if ($etatCreer) {
             $sortie->setEtatSortie($etatCreer);
         } else {
-            throw new \Exception("L'état 'Créée' n'existe pas.");
+            throw new \Exception("L'état '1' n'existe pas.");
         }
 
         $organisateur = $this->getUser();

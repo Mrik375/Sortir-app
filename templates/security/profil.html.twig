@@ -6,6 +6,7 @@
 
 {% block body %}
     <h1>Mon profil</h1>
+
     <style>
         .imgProfile {
             width: 100px;
@@ -14,14 +15,15 @@
         }
     </style>
 
-    {% if user.imageProfile is not null %}
-        <img class="imgProfile" src="{{ asset('uploads/images/' ~ user.imageProfile) }}" alt="user photo">
+    {% if user.imageProfile is not empty %}
+        <img class="imgProfile" src="{{ asset('uploads/images/' ~ user.imageProfile) }}" alt="user photo" onerror="this.src='{{ asset('uploads/images/defautProfil.webp') }}';">
     {% else %}
-        <p>Pas d'image de profil</p>
+        <img class="imgProfile" src="{{ asset('uploads/images/defautProfil.webp') }}" alt="Image de profil par défaut">
     {% endif %}
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
     <button class="btn" type="submit">Enregistrer</button>
-    <a href="{{ path('home_') }}" class="btn" style="text-decoration: none">Annuler</a>    {{ form_end(form) }}
+    <a href="{{ path('home_') }}" class="annuler" style="text-decoration: none">Annuler</a>
+    {{ form_end(form) }}
 {% endblock %}
