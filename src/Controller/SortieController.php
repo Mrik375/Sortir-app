@@ -27,21 +27,22 @@ final class SortieController extends AbstractController
         ]);
     }
 
-    #[IsGranted('ROLE_ADMIN')]
     #[Route('/new/', name: 'sortie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $sortie = new Sortie();
-        $etatCreer = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Créée']);
+        $etatCreer = $em->getRepository(Etat::class)->findOneBy(['id' => '1']);
 
         if ($etatCreer) {
             $sortie->setEtatSortie($etatCreer);
         } else {
-            throw new \Exception("L'état 'Créée' n'existe pas.");
+            throw new \Exception("L'état '1' n'existe pas.");
         }
 
         $organisateur = $this->getUser();
         $sortie->setOrganisateur($organisateur);
+
+        $sortie->addParticipant($organisateur);
 
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
@@ -49,18 +50,18 @@ final class SortieController extends AbstractController
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 if ($form->get('publish')->isClicked()) {
-                    $etatOuverte = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']);
+                    $etatOuverte = $em->getRepository(Etat::class)->findOneBy(['id' => '2']);
                     if ($etatOuverte) {
                         $sortie->setEtatSortie($etatOuverte);
                     } else {
-                        throw new \Exception("L'état 'Ouverte' n'existe pas.");
+                        throw new \Exception("L'état '2' n'existe pas.");
                     }
                 }
                 $em->persist($sortie);
                 $em->flush();
 
                 $this->addFlash('success', 'Votre sortie a bien été enregistrée');
-                return $this->redirectToRoute('home_');
+                return $this->redirectToRoute('app_sortie_show', ['id' => $sortie->getId()]);
             } else {
                 $this->addFlash('error', 'Une erreur est survenue lors de l\'enregistrement de la sortie');
             }
@@ -98,41 +99,63 @@ final class SortieController extends AbstractController
         ]);
     }
 
-    #[IsGranted('ROLE_ADMIN')]
     #[Route('/edit/{id}', name: 'app_sortie_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Sortie $sortie, EntityManagerInterface $em): Response
     {
+        // Création du formulaire pour la sortie
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
+        // Gestion de la suppression si le bouton "Supprimer" est cliqué
+        if ($request->isMethod('POST') && $request->request->get('delete')) {
+            // Vérification du CSRF token pour la sécurité
+            $token = $request->request->get('_token');
+            if ($this->isCsrfTokenValid('delete' . $sortie->getId(), $token)) {
+                // Suppression de la sortie si le token est valide
+                $em->remove($sortie);
+                $em->flush();
+
+                // Message de succès et redirection après suppression
+                $this->addFlash('success', 'La sortie a été supprimée avec succès.');
+                return $this->redirectToRoute('home_');
+            } else {
+                // Message d'erreur si le token CSRF est invalide
+                $this->addFlash('error', 'Token CSRF invalide.');
+            }
+        }
+
+        // Si le formulaire est soumis et valide, gérer la modification ou la publication
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            // Vérifier si le bouton "Publier" a été cliqué
+            if ($form->get('publish')->isClicked()) {
+                $etatOuverte = $em->getRepository(Etat::class)->findOneBy(['id' => '2']);
+                if ($etatOuverte) {
+                    $sortie->setEtatSortie($etatOuverte);
+                } else {
+                    throw new \Exception("L'état '2' n'existe pas.");
+                }
+            }
 
+            // Enregistrer les modifications dans la base de données
+            $em->flush();
 
-        return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
-    }
+            // Message de succès et redirection après modification
+            $this->addFlash('success', 'Votre sortie a bien été enregistrée.');
+            return $this->redirectToRoute('home_');
+        }
 
+        // Si le formulaire est soumis mais invalide, afficher un message d'erreur
+        if ($form->isSubmitted()) {
+            $this->addFlash('error', 'Une erreur est survenue lors de l\'enregistrement de la sortie.');
+        }
+
+        // Rendu de la vue pour l'édition de la sortie
         return $this->render('sortie/edit.html.twig', [
             'sortie' => $sortie,
             'form' => $form->createView(),
-
         ]);
     }
 
-
-    #[IsGranted('ROLE_ADMIN')]
-    #[Route('/sortie/delete/{id}', name: 'app_sortie_delete', methods: ['POST'])]
-    public function delete(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete' . $sortie->getId(), $request->get('_token'))) {
-            $entityManager->remove($sortie);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    #[IsGranted('ROLE_ADMIN')]
     #[Route('/lieu-details/{id}', name: 'lieu_details', methods: ['GET'])]
     public function getLieuDetails($id, EntityManagerInterface $entityManager): JsonResponse
     {
@@ -148,5 +171,47 @@ final class SortieController extends AbstractController
             'latitude' => $lieu->getLatitude(),
             'longitude' => $lieu->getLongitude()
         ]);
+    }
+
+    #[Route('/inscription/{id}', name: 'sortie_inscription', methods: ['POST'])]
+    public function inscription(Request $request, SortieRepository $sortieRepository, EntityManagerInterface $em, int $id): Response
+    {
+        $sortie = $sortieRepository->find($id);
+
+        if (!$sortie) {
+            throw $this->createNotFoundException('No sortie found for id ' . $id);
+        }
+        $user = $this->getUser();
+
+        if (!$sortie->getParticipants()->contains($user)) {
+
+            $sortie->addParticipant($user);
+            $em->persist($sortie);
+            $em->flush();
+
+            $this->addFlash('success', 'Vous êtes maintenant inscrit à la sortie.');
+        } else {
+            $this->addFlash('warning', 'Vous êtes déjà inscrit à cette sortie.');
+        }
+        return $this->redirectToRoute('app_sortie_show', ['id' => $id]);
+    }
+
+    #[Route('/desistement/{id}', name: 'sortie_desistement', methods: ['POST'])]
+    public function desistement(Request $request, Sortie $sortie, EntityManagerInterface $em): Response
+    {
+        $user = $this->getUser();
+
+        if (!$sortie->getParticipants()->contains($user)) {
+            $this->addFlash('error', 'Vous n\'êtes pas inscrit à cette sortie.');
+            return $this->redirectToRoute('app_sortie_show', ['id' => $sortie->getId()]);
+        }
+
+        $sortie->removeParticipant($user);
+        $em->persist($sortie);
+        $em->flush();
+
+        $this->addFlash('success', 'Vous vous êtes bien désisté de la sortie.');
+
+        return $this->redirectToRoute('home_', ['id' => $sortie->getId()]);
     }
 }

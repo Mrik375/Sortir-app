@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Profil de {{ participant.nom }}{% endblock %}
+{% block title %}{{ parent() }} | {{ participant.nom }}{% endblock %}
 
 {% block body %}
     <style>

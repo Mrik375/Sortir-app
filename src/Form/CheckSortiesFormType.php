@@ -23,41 +23,46 @@ class CheckSortiesFormType extends AbstractType
                 'label' => 'Campus',
                 'placeholder' => 'Sélectionner un campus',
                 'required' => false,
+                'attr' => ['class' => 'form-left']
             ])
             ->add('nom', TextType::class, [
                 'label' => 'Nom de la sortie',
-                'attr' => ['id' => 'search-name'],
+                'attr' => ['class' => 'form-left', 'id' => 'search-name'],
                 'required' => false,
             ])
             ->add('dateDebut', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'Entre le',
-                'attr' => ['class' => 'js-datepicker', 'id' => 'date-debut'],
+                'attr' => ['class' => 'js-datepicker form-left', 'id' => 'date-debut'],
                 'required' => false,
                 'html5' => true,
             ])
             ->add('dateFin', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'Et le',
-                'attr' => ['class' => 'js-datepicker', 'id' => 'date-fin'],
+                'attr' => ['class' => 'js-datepicker form-left', 'id' => 'date-fin'],
                 'required' => false,
                 'html5' => true,
             ])
             ->add('organisateur', CheckboxType::class, [
                 'label' => 'Sorties dont je suis l’organisateur/trice',
                 'required' => false,
+                'attr' => ['class' => 'form-center'],
             ])
             ->add('inscrit', CheckboxType::class, [
                 'label' => 'Sorties auxquelles je suis inscrit/e',
                 'required' => false,
+                'attr' => ['class' => 'form-center'],
             ])
             ->add('nonInscrit', CheckboxType::class, [
                 'label' => 'Sorties auxquelles je ne suis pas inscrit/e',
                 'required' => false,
+                'attr' => ['class' => 'form-center'],
             ])
             ->add('sortiesPassees', CheckboxType::class, [
                 'label' => 'Sorties passées',
                 'required' => false,
+                'attr' => ['class' => 'form-center'],
             ])
         ;
     }

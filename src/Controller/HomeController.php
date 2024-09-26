@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Class\Accueil;
+use App\Entity\Etat;
 use App\Entity\Participant;
 use App\Form\CheckSortiesFormType;
 use App\Repository\SortieRepository;
@@ -31,6 +32,23 @@ class HomeController extends AbstractController
             'checkSortiesForm' => $form->createView(),
             'sorties' => $filteredSorties,
         ]);
+    }
+
+    #[Route('/sortie/publish/{id}', name: 'sortie_publish', methods: ['POST'])]
+    public function publishSortie(int $id, EntityManagerInterface $entityManager, SortieRepository $sortieRepository, Security $security): Response {
+        $sortie = $sortieRepository->find($id);
+
+        if (!$sortie || $sortie->getOrganisateur() !== $security->getUser()) {
+            throw $this->createAccessDeniedException('Accès non autorisé ou sortie non trouvée.');
+        }
+
+        $etatOuverte = $entityManager->getRepository(Etat::class)->find(2);
+        $sortie->setEtatSortie($etatOuverte);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'La sortie a été publiée avec succès!');
+
+        return $this->index(new Request(), $entityManager, $sortieRepository, $security);
     }
 }
 
