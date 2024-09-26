@@ -1,5 +1,5 @@
 body{
-    background-color: moccasin;
+    background-color: rgba(204, 202, 202, 0.62);
     margin: 0;
     min-height: 100vh;
     display: flex;
@@ -9,25 +9,43 @@ body{
 
 main {
     flex: 1;
+    margin-left: 120px;
+    margin-right: 120px;
+    font-size: 1.2rem;
 }
 
 main h1{
-    margin: 40px;
+    margin-top: 40px;
 }
 
 header{
-    background-color: olive;
-
+    background-color: rgba(78, 122, 34, 0.94);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    padding-left: 4vw;
+    padding-right: 4vw;
 }
-header h1{
-    margin-left: 30%;
+header img {
+    margin-top: 15px;
+    margin-right: 10px;
 }
-
+header a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.3rem;
+    display: flex;
+}
+header a:hover {
+    color: rgba(221, 221, 221, 0.78);
+}
 footer{
-    background-color: sandybrown;
+    margin-top: 40px;
+    background-color: rgba(78, 122, 34, 0.94);
     text-align: center;
     padding: 10px;
-    margin-top: auto;
+    color: white;
 }
 
 ul{
@@ -38,7 +56,6 @@ ul{
     display: flex;
     list-style-type: none;
     padding: 0;
-    margin-left: 30%;
 }
 
 .nav-list li {
@@ -47,11 +64,16 @@ ul{
 
 .nav-list a {
     text-decoration: none;
-    color: black; /* Couleur du texte des liens */
+    color: white;
+    font-size: 1.1rem;
 }
 .tab-sorties {
-    margin: 80px;
+    margin-top: 50px;
+    margin-bottom: 40px;
     background-color: #f2f2f2;
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid rgba(78, 122, 34, 0.83);
 }
 .tab-sorties a {
     text-decoration: none;
@@ -61,12 +83,75 @@ ul{
     border-collapse: collapse;
 }
 th, td {
-    border: 1px solid black;
+    border: 1px solid rgba(78, 122, 34, 0.85);
     padding: 10px;
     text-align: center;
 }
-
 th {
     background-color: #bdbcbc;
 }
-
+.login-1 input {
+    height: 25px;
+    width: 200px;
+    margin-bottom: 15px;
+}
+button {
+    margin-top: 15px;
+    height: 35px;
+    padding-right: 20px;
+    padding-left: 20px;
+    font-size: 1.1rem;
+    background-color: rgba(78, 122, 34, 0.85);
+    border: none;
+    color: white;
+    border-radius: 5px;
+}
+button:hover {
+    cursor: pointer;
+    background-color: rgba(88, 142, 36, 0.85);
+}
+.card-user {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 1.3rem;
+    color: rgba(20, 20, 197, 0.66);
+}
+form[name="check_sorties_form"] {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 15vw;
+    border-radius: 5px;
+    box-shadow: 12px 12px 15px 1px rgba(128, 128, 128, 0.63);
+    padding: 10px 50px 30px 10px;
+}
+form[name="check_sorties_form"] button {
+    height: 70px;
+    font-size: 1.4rem;
+}
+.form-filters input, select {
+    height: 25px;
+    border-radius: 5px;
+    border: none;
+}
+.form-left input, select{
+    margin-bottom: 20px;
+}
+.form-filters select:hover {
+    cursor: pointer;
+}
+.form-filters label {
+    margin-right: 10px;
+}
+.calender {
+    display: flex;
+    justify-content: space-around;
+}
+.calender input {
+    height: 25px;
+    margin-right: 20px;
+}
+input[type="checkbox"] {
+    width: 20px;
+    cursor: pointer;
+}
