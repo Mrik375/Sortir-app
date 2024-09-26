@@ -4,89 +4,89 @@
 {% block stylesheets %}<link rel="stylesheet" href="{{ asset('styles/newForm.css') }}">{% endblock %}
 {% block body %}
     <main>
-        <section class="form-container">
-            <h1>Créer une sortie</h1>
 
+            <h1>Créer une sortie</h1>
+            <div class="parent">
             {{ form_start(form, {'method': 'POST'}) }}
 
+            <div class="div1">
+                <div class="form-group">
+                    {{ form_label(form.nom, 'Nom de la sortie :') }}
+                    {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                </div>
 
-            <div class="form-group">
-                {{ form_label(form.nom, 'Nom de la sortie :') }}
-                {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
-            </div>
+                <div class="form-group">
+                    {{ form_label(form.dateHeureDebut, 'Date et heure de la sortie :') }}
+                    {{ form_widget(form.dateHeureDebut, {'attr': {'class': 'form-control'}}) }}
+                </div>
 
-            <div class="form-group">
-                {{ form_label(form.dateHeureDebut, 'Date et heure de la sortie :') }}
-                {{ form_widget(form.dateHeureDebut, {'attr': {'class': 'form-control'}}) }}
-            </div>
+                <div class="form-group">
+                    {{ form_label(form.dateLimiteInscription, 'Date limite d\'inscription :') }}
+                    {{ form_widget(form.dateLimiteInscription, {'attr': {'class': 'form-control'}}) }}
+                </div>
 
-            <div class="form-group">
-                {{ form_label(form.dateLimiteInscription, 'Date limite d\'inscription :') }}
-                {{ form_widget(form.dateLimiteInscription, {'attr': {'class': 'form-control'}}) }}
-            </div>
+                <div class="form-group">
+                    {{ form_label(form.nbInscriptionMax, 'Nombre de places :') }}
+                    {{ form_widget(form.nbInscriptionMax, {'attr': {'class': 'form-control'}}) }}
+                </div>
 
-            <div class="form-group">
-                {{ form_label(form.nbInscriptionMax, 'Nombre de places :') }}
-                {{ form_widget(form.nbInscriptionMax, {'attr': {'class': 'form-control'}}) }}
-            </div>
+                <div class="form-group">
+                    {{ form_label(form.duree, 'Durée :') }}
+                    {{ form_widget(form.duree, {'attr': {'class': 'form-control'}}) }}
+                    <span>minutes</span>
+                </div>
 
-            <div class="form-group">
-                {{ form_label(form.duree, 'Durée :') }}
-                {{ form_widget(form.duree, {'attr': {'class': 'form-control'}}) }}
-                <span>minutes</span>
+                <div class="form-group">
+                    {{ form_label(form.infosSortie, 'Description et infos :') }}
+                    {{ form_widget(form.infosSortie, {'attr': {'rows': '4', 'class': 'form-control'}}) }}
+                </div>
             </div>
+            <div class="div2">
+                <div class="form-group">
+                    {{ form_label(form.siteOrganisateur, 'Campus :') }}
+                    {{ form_widget(form.siteOrganisateur, {'attr': {'class': 'form-control'}}) }}
+                </div>
 
-            <div class="form-group">
-                {{ form_label(form.infosSortie, 'Description et infos :') }}
-                {{ form_widget(form.infosSortie, {'attr': {'rows': '4', 'class': 'form-control'}}) }}
-            </div>
+                <div class="form-group">
+                    {{ form_label(form.ville, 'Ville :') }}
+                    {{ form_widget(form.ville, {'attr': {'class': 'form-control'}}) }}
+                </div>
 
-            <div class="form-group">
-                {{ form_label(form.siteOrganisateur, 'Campus :') }}
-                {{ form_widget(form.siteOrganisateur, {'attr': {'class': 'form-control'}}) }}
-            </div>
+                <div class="form-group">
+                    {{ form_label(form.lieuSortie, 'Lieu :') }}
+                    {{ form_widget(form.lieuSortie, {'attr': {'class': 'form-control'}}) }}
+                    <button type="button" class="add-lieu">+</button>
+                </div>
 
-            <div class="form-group">
-                {{ form_label(form.ville, 'Ville :') }}
-                {{ form_widget(form.ville, {'attr': {'class': 'form-control'}}) }}
-            </div>
+                <div class="form-group">
+                    <label for="rue">Rue :</label>
+                    <input type="text" id="rue" class="form-control" disabled>
+                </div>
 
-            <div class="form-group">
-                {{ form_label(form.lieuSortie, 'Lieu :') }}
-                {{ form_widget(form.lieuSortie, {'attr': {'class': 'form-control'}}) }}
-                <button type="button" class="add-lieu">+</button>
-            </div>
+                <div class="form-group">
+                    <label for="codePostal">Code Postal :</label>
+                    <input type="text" id="codePostal" class="form-control" disabled>
+                </div>
 
-            <!-- Ajoute des ID pour cibler facilement ces éléments dans le JS -->
-            <div class="form-group">
-                <label for="rue">Rue :</label>
-                <input type="text" id="rue" class="form-control" disabled>
-            </div>
+                <div class="form-group">
+                    <label for="latitude">Latitude  :</label>
+                    <input type="text" id="latitude" class="form-control" disabled>
+                </div>
 
-            <div class="form-group">
-                <label for="codePostal">Code Postal :</label>
-                <input type="text" id="codePostal" class="form-control" disabled>
+                <div class="form-group">
+                    <label for="longitude">Longitude :</label>
+                    <input type="text" id="longitude" class="form-control" disabled>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label for="latitude">Latitude  :</label>
-                <input type="text" id="latitude" class="form-control" disabled>
-            </div>
-
-            <div class="form-group">
-                <label for="longitude">Longitude :</label>
-                <input type="text" id="longitude" class="form-control" disabled>
-            </div>
-
-            <div class="btn-form">
-                {{ form_widget(form.save, {'attr': {'class': 'btn'}}) }}
-                {{ form_widget(form.publish, {'attr': {'class': 'btn'}}) }}
-                <a href="{{ path('home_') }}" class="btn">Annuler</a>
-            </div>
+                <div class="div3">
+                    {{ form_widget(form.save, {'attr': {'class': 'btn'}}) }}
+                    {{ form_widget(form.publish, {'attr': {'class': 'btn'}}) }}
+                    <a href="{{ path('home_') }}" class="btn" style="text-decoration: none">Annuler</a>
+                </div>
 
 
             {{ form_end(form) }}
-        </section>
+        </div>
     </main>
 
     <script defer>

@@ -6,8 +6,22 @@
 
 {% block body %}
     <h1>Mon profil</h1>
+    <style>
+        .imgProfile {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+    </style>
+
+    {% if user.imageProfile is not null %}
+        <img class="imgProfile" src="{{ asset('uploads/images/' ~ user.imageProfile) }}" alt="user photo">
+    {% else %}
+        <p>Pas d'image de profil</p>
+    {% endif %}
+
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button type="submit">Mettre à jour</button>
-    {{ form_end(form) }}
+    <button class="btn" type="submit">Enregistrer</button>
+    <a href="{{ path('home_') }}" class="btn" style="text-decoration: none">Annuler</a>    {{ form_end(form) }}
 {% endblock %}

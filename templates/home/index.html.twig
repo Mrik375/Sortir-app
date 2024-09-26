@@ -50,13 +50,13 @@
                             <td>
                                 {% if sortie.etatSortie.id == 1 %}
                                     {% if sortie.organisateur == app.user %}
-                                        <a href="">Modifier - </a>
+                                        <a href="{{ path('app_sortie_edit', { 'id': sortie.id }) }}" data-turbo="false">Modifier</a>
                                         <a href="">Publier</a>
                                     {% else %}
                                         <span>Bientôt disponible...</span>
                                     {% endif %}
                                     {% elseif sortie.organisateur == app.user %}
-                                        <a href="">Modifier - </a>
+                                        <a href="{{ path('app_sortie_edit', { 'id': sortie.id }) }}" data-turbo="false">Modifier</a>
                                         <a href="">Annuler</a>
                                     {% elseif sortie.etatSortie.id == 5 %}
                                         <a href="">Afficher</a>
@@ -84,7 +84,7 @@
     </div>
 </div>
     <div>
-        <a href="">
+        <a href="{{ path('sortie_new') }}" data-turbo="false">
             <button type="submit">Créer une sortie</button>
         </a>
     </div>

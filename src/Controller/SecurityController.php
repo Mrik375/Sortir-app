@@ -57,22 +57,25 @@ class SecurityController extends AbstractController
             /** @var UploadedFile $imageFile */
             $imageFile = $form->get('profilImage')->getData();
             if ($imageFile) {
+                // Créer un nom unique pour le fichier image
                 $newFilename = uniqid().'.'.$imageFile->guessExtension();
 
-                // On déplace le fichier dans le répertoire où sont stockées les images de profil
+                // Déplacer le fichier dans le répertoire désigné
                 try {
                     $imageFile->move(
-                        $this->getParameter('image_directory'),
+                        $this->getParameter('image_directory'), // Paramètre configuré dans services.yaml
                         $newFilename
                     );
                 } catch (FileException $e) {
-
+                    // Gérer l'exception si le fichier ne peut pas être déplacé
+                    $this->addFlash('error', 'Erreur lors du téléchargement de l\'image de profil.');
                 }
 
-                // On met à jour l'image de profil de l'utilisateur
+                // Mettre à jour l'image de profil de l'utilisateur
                 $user->setImageProfile($newFilename);
             }
 
+            // Sauvegarder les modifications dans la base de données
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -83,6 +86,7 @@ class SecurityController extends AbstractController
 
         return $this->render('security/profil.html.twig', [
             'form' => $form->createView(),
+            'user' => $user, // Passer l'utilisateur à la vue
         ]);
     }
 
