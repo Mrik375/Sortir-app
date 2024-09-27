@@ -10,7 +10,7 @@
             border-radius: 50%;
         }
     </style>
-    {% if user.imageProfile is not empty %}
+    {% if participant.imageProfile is not empty %}
         <img class="imgProfile" src="{{ asset('uploads/images/' ~ user.imageProfile) }}" alt="user photo" onerror="this.src='{{ asset('uploads/images/defautProfil.webp') }}';">
     {% else %}
         <img class="imgProfile" src="{{ asset('uploads/images/defautProfil.webp') }}" alt="Image de profil par défaut">
